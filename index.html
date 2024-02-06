@@ -3,10 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            margin: 0;
+            text-align: center;
+        }
+        h1{
+            margin: 0 0 50px 0;
+            text-decoration: underline;
+            background-color: crimson;
+            padding: 15px;
+            color: gold;
+        }
+        #topwrapper{
+            display: block;
+            margin: auto;
+            width: fit-content;
+            padding: 30px;
+            border:2px solid #000;
+            border-radius: 15px;
+        }
+
+        .btn {
+            width:100%;
+            display: inline-block;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            background-color: #0d6efd;
+            border: 1px solid #0d6efd;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        aside{
+            text-align: left;
+            position: relative;
+            margin-bottom: 15px;
+        }
+    
+        .btn:hover {
+            color: #fff;
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+
+        .bottom{
+            position: unset;
+            bottom: 15px;
+            width:100%;
+        }
+
+        @media screen and (min-width: 600px) {
+            #topwrapper{
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                column-gap: 5%;
+            }
+
+            .bottom{
+                position: absolute;
+            }
+        }
+    </style>
     <title>Wave Function Collapse</title>
 </head>
 <body>
+    <h1>Wave Function Collapse</h1>
+    <div id="topwrapper">
+        <aside>
+            <div class="navItem">
+                <label for="dim">Cell dimension (between 5 and 100):</label>
+                <input type="number" id="dim" name="dim" min="5" max="100" value="10" onchange="validateDim(event)" />
+            </div>
+            <div class="navItem bottom">
+                <button type="button" class="btn" onclick="initGrid()">Restart</button>
+            </div>
+        </aside>
+        <main>
+            <canvas id="defaultCanvas0"></canvas>
+        </main>
+    </div>
+    
     <script src="sketch.js"></script>
     <script src="tile.js"></script>
     <script src="cell.js"></script>

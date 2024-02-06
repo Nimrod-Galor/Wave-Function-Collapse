@@ -1,4 +1,5 @@
-const DIM = 100;
+let gridSize = 800;
+let DIM = 10;
 const tileImages = [];
 
 let tiles = [];
@@ -6,49 +7,51 @@ let grid = [];
 
 function preload() {
   const path = './tiles/roads';
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 5; i++) {
     tileImages[i] = loadImage(`${path}/${i}.png`);
   }
 }
 
 function setup(){
-    createCanvas(1000, 1000);
+    createCanvas(gridSize, gridSize, document.getElementById("defaultCanvas0"));
 
     // Loaded and created the tiles
     tiles[0] = new Tile(tileImages[0], ['AAA', 'AAA', 'AAA', 'AAA']);
-    tiles[1] = new Tile(tileImages[1], ['ABA', 'ABA', 'AAA', 'ABA']);
-    tiles[2] = new Tile(tileImages[2], ['ABA', 'ABA', 'ABA', 'AAA']);
-    tiles[3] = new Tile(tileImages[3], ['AAA', 'ABA', 'ABA', 'ABA']);
-    tiles[4] = new Tile(tileImages[4], ['ABA', 'AAA', 'ABA', 'ABA']);
-    tiles[5] = new Tile(tileImages[5], ['ABA', 'ABA', 'ABA', 'ABA']);
-    tiles[6] = new Tile(tileImages[6], ['AAA', 'ABA', 'AAA', 'ABA']);
-    tiles[7] = new Tile(tileImages[7], ['ABA', 'AAA', 'ABA', 'AAA']);
-    tiles[8] = new Tile(tileImages[8], ['ABA', 'ABA', 'AAA', 'AAA']);
-    tiles[9] = new Tile(tileImages[9], ['AAA', 'ABA', 'ABA', 'AAA']);
-    tiles[10] = new Tile(tileImages[10], ['AAA', 'AAA', 'ABA', 'ABA']);
-    tiles[11] = new Tile(tileImages[11], ['ABA', 'AAA', 'AAA', 'ABA']);
-
+    tiles[1] = new Tile(tileImages[1], ['ABA', 'ABA', 'ABA', 'ABA']);
+    tiles[2] = new Tile(tileImages[2], ['ABA', 'ABA', 'AAA', 'ABA']);
+    tiles[3] = new Tile(tileImages[3], ['AAA', 'ABA', 'AAA', 'ABA']);
+    tiles[4] = new Tile(tileImages[4], ['ABA', 'ABA', 'AAA', 'AAA']);
     // // create rotated tiles
-    // const initialTilesLength = tiles.length;
-    // // start from 1. no point of rotating first image
-    // for(let ti = 1 ; ti < initialTilesLength; ti++){
-    //     //loop 3 rotation variant
-    //      for(let r=1; r<4; r++){
-    //         // rotate function return new obj
-    //         const tileVariant = tiles[ti].rotate(r);
-    //         tiles.push(tileVariant);
-    //     }
-    // }
+    const initialTilesLength = tiles.length;
+    // start from 2. no point of rotating first 2 image
+    for(let ti = 2 ; ti < initialTilesLength; ti++){
+        //loop 3 rotation variant
+         for(let r=1; r<4; r++){
+            // rotate function return new obj
+            const tileVariant = tiles[ti].rotate(r);
+            tiles.push(tileVariant);
+        }
+    }
 
     // match Possible Edges
     for (let i = 0; i < tiles.length; i++) {
         const tile = tiles[i];
         tile.matchPossibleEdges(tiles);
     }
-    
-    console.log(tiles);
 
     initGrid();
+}
+
+function initGrid() {
+  DIM = Number(document.getElementById("dim").value) || DIM;
+  console.log(`DIM: ${DIM}`);
+  grid = [];
+  // Create cell for each spot on the grid
+  for (let i = 0; i < DIM * DIM; i++) {
+    grid[i] = new Cell(tiles.length);
+  }
+
+  loop();
 }
 
 function draw(){
@@ -140,10 +143,8 @@ function draw(){
      }
 }
 
-
-function initGrid() {
-    // Create cell for each spot on the grid
-    for (let i = 0; i < DIM * DIM; i++) {
-        grid[i] = new Cell(tiles.length);
-    }
+function validateDim(evt){
+  if(evt.target.value === undefined || evt.target.value < 5 || evt.target.value > 100){
+    evt.target.value = DIM;
+  }
 }
