@@ -1,4 +1,4 @@
-const DIM = 10;
+const DIM = 100;
 const tileImages = [];
 
 let tiles = [];
@@ -6,13 +6,13 @@ let grid = [];
 
 function preload() {
   const path = './tiles/roads';
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 12; i++) {
     tileImages[i] = loadImage(`${path}/${i}.png`);
   }
 }
 
 function setup(){
-    createCanvas(800, 800);
+    createCanvas(1000, 1000);
 
     // Loaded and created the tiles
     tiles[0] = new Tile(tileImages[0], ['AAA', 'AAA', 'AAA', 'AAA']);
@@ -23,6 +23,10 @@ function setup(){
     tiles[5] = new Tile(tileImages[5], ['ABA', 'ABA', 'ABA', 'ABA']);
     tiles[6] = new Tile(tileImages[6], ['AAA', 'ABA', 'AAA', 'ABA']);
     tiles[7] = new Tile(tileImages[7], ['ABA', 'AAA', 'ABA', 'AAA']);
+    tiles[8] = new Tile(tileImages[8], ['ABA', 'ABA', 'AAA', 'AAA']);
+    tiles[9] = new Tile(tileImages[9], ['AAA', 'ABA', 'ABA', 'AAA']);
+    tiles[10] = new Tile(tileImages[10], ['AAA', 'AAA', 'ABA', 'ABA']);
+    tiles[11] = new Tile(tileImages[11], ['ABA', 'AAA', 'AAA', 'ABA']);
 
     // // create rotated tiles
     // const initialTilesLength = tiles.length;
@@ -72,10 +76,7 @@ function draw(){
     }
 
     // Pick cell with least entropy
-    let gridCopy = grid.slice();
-    gridCopy = gridCopy.filter((a) => !a.collapsed);
-    // console.table(grid);
-    // console.table(gridCopy);
+    gridCopy = grid.filter(a =>  a.collapsed === false);
 
     if (gridCopy.length == 0) {
         // we are finish!
@@ -88,26 +89,19 @@ function draw(){
         return a.options.length - b.options.length;
     });
 
-    // remove items with more entropy
-    let minEntropy = gridCopy[0].options.length;
-    gridCopy = gridCopy.filter(a => {
-        return a.options.length <= minEntropy;
-    });
+    // get only items with min entropy
+    const minEntropy = gridCopy[0].options.length;
+    gridCopy = gridCopy.filter(a => a.options.length <= minEntropy);
 
-    // pick random cell (from min entropy arr)
+    // pick random cell (from min entropy array)
     const cell = random(gridCopy);
     cell.collapsed = true;
 
     // pick random option (of picked cell)
     const optionPick = random(cell.options);
-    //??????
-    // if (pick === undefined) {
-    //     startOver();
-    //     return;
-    // }
     cell.options = [optionPick];
 
-    // find cell index
+    // find cell pick grid index 
     let index = 0;
     for(item of grid){
         if(item === cell){
@@ -119,40 +113,31 @@ function draw(){
     // update neighbors option
     let ti = index - DIM;// top ondex
     if(ti >= 0){
-        try{
-            grid[ti].options = grid[ti].options.filter(o => tiles[o].down.includes(optionPick));
-        }catch(err){
-            console.log(`ti: ${ti} optionPick: ${optionPick} cell.options: ${cell.options}`)
+        if(!grid[ti].collapsed){
+            grid[ti].options = grid[ti].options.filter(o => tiles[o].down.includes(optionPick));;
         }
     }
     
      let li = index - 1; //left
      if(li >= 0){
-        try{
-            grid[li].options = grid[li].options.filter(o => tiles[o].right.includes(optionPick));
-        }catch(err){
-            console.log(`li: ${li} optionPick: ${optionPick} cell.options: ${cell.options}`)
+        if(!grid[li].collapsed){
+            grid[li].options = grid[li].options.filter(o => tiles[o].right.includes(optionPick));;
         }
      }
     
      let ri = index + 1;// right
      if(ri < DIM * DIM){
-        try{
-            grid[ri].options = grid[ri].options.filter(o => tiles[o].left.includes(optionPick));
-        }catch(err){
-            console.log(`ri: ${ri} optionPick: ${optionPick} cell.options: ${cell.options}`)
+        if(!grid[ri].collapsed){
+            grid[ri].options = grid[ri].options.filter(o => tiles[o].left.includes(optionPick));;
         }
      }
     
      let bi = index + DIM;// bottom
      if(bi < DIM * DIM){
-        try{
-            grid[bi].options = grid[bi].options.filter(o => tiles[o].up.includes(optionPick));
-        }catch(err){
-            console.log(`bi: ${bi} optionPick: ${optionPick} cell.options: ${cell.options}`)
-        }
+        if(!grid[bi].collapsed){
+            grid[bi].options = grid[bi].options.filter(o => tiles[o].up.includes(optionPick));;
+        }1
      }
-
 }
 
 
