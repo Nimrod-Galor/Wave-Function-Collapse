@@ -67,6 +67,10 @@
             width:100%;
         }
 
+        .tileImage{width: 150px; height: 150px; border:1px solid gray; cursor: pointer;}
+        
+        .selectedTile{border:4px solid gold;}
+
         @media screen and (min-width: 600px) {
             #topwrapper{
                 display: grid;
@@ -89,6 +93,17 @@
                 <label for="dim">Cell dimension (between 5 and 100):</label>
                 <input type="number" id="dim" name="dim" min="5" max="100" value="10" onchange="validateDim(event)" />
             </div>
+
+            <div class="navItem">
+                <h4>Templates:</h4>
+                <img src="./tiles/demo/1.png" id="demo" onclick="tileSelect(event)" class="tileImage" />
+                <img src="./tiles/blue-tracks/1.png" id="bluetraks" onclick="tileSelect(event)" class="tileImage" />
+                <img src="./tiles/mountains/0.png" id="mountains" onclick="tileSelect(event)" class="tileImage" />
+                <img src="./tiles/rail/1.png" id="rail" onclick="tileSelect(event)" class="tileImage" />
+                <img src="./tiles/roads/1.png" id="roads" onclick="tileSelect(event)" class="tileImage selectedTile" />
+                <img src="./tiles/circuit/7.png" id="circuit" onclick="tileSelect(event)" class="tileImage" />
+            </div>
+
             <div class="navItem bottom">
                 <button type="button" class="btn" onclick="initGrid()">Restart</button>
             </div>
@@ -101,5 +116,7 @@
     <script src="sketch.js"></script>
     <script src="tile.js"></script>
     <script src="cell.js"></script>
+    <script src="tileTemplates.js"></script>
+    <script src="permutation.js"></script>
 </body>
 </html>

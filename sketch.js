@@ -1,13 +1,33 @@
 let gridSize = 800;
 let DIM = 10;
-const tileImages = [];
+let tileImages = [];
 
 let tiles = [];
 let grid = [];
 
+
+
+
+
 function preload() {
-  const path = './tiles/roads';
-  for (let i = 0; i < 5; i++) {
+  // const selectedTemplate = templateTailes.selectedTemplate;
+  // const path = templateTailes[selectedTemplate].path;
+  // const numOfTiles = templateTailes[selectedTemplate].numOfTiles;
+  // tileImages = [];
+  // // load images
+  // for (let i = 0; i < numOfTiles; i++) {
+  //   tileImages[i] = loadImage(`${path}/${i}.png`);
+  // }
+  imagesLoad();
+}
+
+function imagesLoad(){
+  const selectedTemplate = templateTailes.selectedTemplate;
+  const path = templateTailes[selectedTemplate].path;
+  const numOfTiles = templateTailes[selectedTemplate].numOfTiles;
+  tileImages = [];
+  // load images
+  for (let i = 0; i < numOfTiles; i++) {
     tileImages[i] = loadImage(`${path}/${i}.png`);
   }
 }
@@ -15,36 +35,17 @@ function preload() {
 function setup(){
     createCanvas(gridSize, gridSize, document.getElementById("defaultCanvas0"));
 
-    // Loaded and created the tiles
-    tiles[0] = new Tile(tileImages[0], ['AAA', 'AAA', 'AAA', 'AAA']);
-    tiles[1] = new Tile(tileImages[1], ['ABA', 'ABA', 'ABA', 'ABA']);
-    tiles[2] = new Tile(tileImages[2], ['ABA', 'ABA', 'AAA', 'ABA']);
-    tiles[3] = new Tile(tileImages[3], ['AAA', 'ABA', 'AAA', 'ABA']);
-    tiles[4] = new Tile(tileImages[4], ['ABA', 'ABA', 'AAA', 'AAA']);
-    // // create rotated tiles
-    const initialTilesLength = tiles.length;
-    // start from 2. no point of rotating first 2 image
-    for(let ti = 2 ; ti < initialTilesLength; ti++){
-        //loop 3 rotation variant
-         for(let r=1; r<4; r++){
-            // rotate function return new obj
-            const tileVariant = tiles[ti].rotate(r);
-            tiles.push(tileVariant);
-        }
-    }
-
-    // match Possible Edges
-    for (let i = 0; i < tiles.length; i++) {
-        const tile = tiles[i];
-        tile.matchPossibleEdges(tiles);
-    }
-
     initGrid();
 }
 
 function initGrid() {
   DIM = Number(document.getElementById("dim").value) || DIM;
   console.log(`DIM: ${DIM}`);
+
+  const selectedTemplate = templateTailes.selectedTemplate;
+  // Loaded and created the tiles
+  tiles = generateTiles(selectedTemplate);
+
   grid = [];
   // Create cell for each spot on the grid
   for (let i = 0; i < DIM * DIM; i++) {
@@ -52,6 +53,34 @@ function initGrid() {
   }
 
   loop();
+}
+
+function generateTiles(selectedTemplate){
+  // Loaded and created the tiles
+  let tmpTiles = [];
+  for(let i=0; i < templateTailes[selectedTemplate].numOfTiles; i++){
+    tmpTiles[i] = new Tile(tileImages[i], templateTailes[selectedTemplate].edges[i]);
+  }
+
+  // // create rotated tiles
+  const initialTilesLength = tmpTiles.length;
+  // start from 2. no point of rotating first 2 image
+  for(let ti = templateTailes[selectedTemplate].rotateStartIndex ; ti < initialTilesLength; ti++){
+      //loop 3 rotation variant
+       for(let r=1; r<4; r++){
+          // rotate function return new obj
+          const tileVariant = tmpTiles[ti].rotate(r);
+          tmpTiles.push(tileVariant);
+      }
+  }
+
+  // match Possible Edges
+  for (let i = 0; i < tmpTiles.length; i++) {
+      const tile = tmpTiles[i];
+      tile.matchPossibleEdges(tmpTiles);
+  }
+
+  return tmpTiles;
 }
 
 function draw(){
@@ -117,28 +146,40 @@ function draw(){
     let ti = index - DIM;// top ondex
     if(ti >= 0){
         if(!grid[ti].collapsed){
-            grid[ti].options = grid[ti].options.filter(o => tiles[o].down.includes(optionPick));;
+            grid[ti].options = grid[ti].options.filter(o => tiles[o].down.includes(optionPick));
+            if(grid[ti].options.length === 0){
+              //debugger;
+            }
         }
     }
     
      let li = index - 1; //left
      if(li >= 0){
         if(!grid[li].collapsed){
-            grid[li].options = grid[li].options.filter(o => tiles[o].right.includes(optionPick));;
+            grid[li].options = grid[li].options.filter(o => tiles[o].right.includes(optionPick));
+            if(grid[li].options.length === 0){
+              //debugger;
+            }
         }
      }
     
      let ri = index + 1;// right
      if(ri < DIM * DIM){
         if(!grid[ri].collapsed){
-            grid[ri].options = grid[ri].options.filter(o => tiles[o].left.includes(optionPick));;
+            grid[ri].options = grid[ri].options.filter(o => tiles[o].left.includes(optionPick));
+            if(grid[ri].options.length === 0){
+              //debugger;
+            }
         }
      }
     
      let bi = index + DIM;// bottom
      if(bi < DIM * DIM){
         if(!grid[bi].collapsed){
-            grid[bi].options = grid[bi].options.filter(o => tiles[o].up.includes(optionPick));;
+            grid[bi].options = grid[bi].options.filter(o => tiles[o].up.includes(optionPick));
+            if(grid[bi].options.length === 0){
+              //debugger;
+            }
         }1
      }
 }
@@ -147,4 +188,18 @@ function validateDim(evt){
   if(evt.target.value === undefined || evt.target.value < 5 || evt.target.value > 100){
     evt.target.value = DIM;
   }
+}
+
+function tileSelect(evt){
+  console.log("tileSelect");
+  // remove selected class from old
+  document.getElementById(templateTailes.selectedTemplate).classList.remove("selectedTile");
+  // add selected class to new
+  evt.target.classList.add("selectedTile");
+
+  templateTailes.selectedTemplate = evt.target.id;
+  noLoop();
+  //preload(initGrid());
+  imagesLoad();
+  initGrid();
 }
