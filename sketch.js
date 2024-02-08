@@ -6,36 +6,28 @@ let tiles = [];
 let grid = [];
 
 
-
-
-
-function preload() {
-  // const selectedTemplate = templateTailes.selectedTemplate;
-  // const path = templateTailes[selectedTemplate].path;
-  // const numOfTiles = templateTailes[selectedTemplate].numOfTiles;
-  // tileImages = [];
-  // // load images
-  // for (let i = 0; i < numOfTiles; i++) {
-  //   tileImages[i] = loadImage(`${path}/${i}.png`);
-  // }
-  imagesLoad();
+function windowResized() {
+  gridSize = Math.min(800, windowWidth);
+  resizeCanvas(gridSize, gridSize);
 }
 
-function imagesLoad(){
+
+function preload(cb) {
   const selectedTemplate = templateTailes.selectedTemplate;
   const path = templateTailes[selectedTemplate].path;
   const numOfTiles = templateTailes[selectedTemplate].numOfTiles;
   tileImages = [];
   // load images
   for (let i = 0; i < numOfTiles; i++) {
-    tileImages[i] = loadImage(`${path}/${i}.png`);
+    tileImages[i] = loadImage(`${path}/${i}.png`, cb);
   }
 }
 
 function setup(){
-    createCanvas(gridSize, gridSize, document.getElementById("defaultCanvas0"));
+  gridSize = Math.min(800, windowWidth);
+  createCanvas(gridSize, gridSize, document.getElementById("defaultCanvas0"));
 
-    initGrid();
+  initGrid();
 }
 
 function initGrid() {
@@ -199,7 +191,7 @@ function tileSelect(evt){
 
   templateTailes.selectedTemplate = evt.target.id;
   noLoop();
-  //preload();
-  imagesLoad();
+  preload(initGrid);
+  //imagesLoad(initGrid);
   // initGrid();
 }
