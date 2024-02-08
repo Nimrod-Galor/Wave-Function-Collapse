@@ -9,7 +9,7 @@ let grid = [];
 function windowResized() {
   gridSize = Math.min(800, windowWidth * 0.6);
   if(windowWidth <= 600){
-    gridSize = windowWidth * 0.9;
+    gridSize = windowWidth * 0.9 - 60;
   }
   console.log(`win resize grid size: ${gridSize}`);
   resizeCanvas(gridSize, gridSize);

@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
     <style>
+        html , body{
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
         body{
             margin: 0;
             text-align: center;
@@ -24,6 +29,7 @@
             padding: 30px;
             border:2px solid #000;
             border-radius: 15px;
+            box-sizing: border-box;
         }
 
         .btn {
@@ -67,10 +73,21 @@
 
         .imgItem{
             display: inline-block;
+            margin: 0 10px;
+        }
+
+        .navItem h3{
+            text-align: left;
         }
 
         .imgItem h5{
+            text-align: left;
             margin-bottom: 5px;
+        }
+
+        .tileWrapper{
+            margin-bottom: 100px;
+            text-align: center;
         }
 
         .tileImage{width: 150px; height: 150px; border:1px solid gray; cursor: pointer;}
@@ -82,6 +99,7 @@
                 display: grid;
                 grid-template-columns: 1fr auto;
                 column-gap: 2%;
+                max-width: 95%;
             }
 
             .bottom{
@@ -100,7 +118,7 @@
                 <input type="number" id="dim" name="dim" min="5" max="100" value="10" onchange="validateDim(event)" />
             </div>
 
-            <div class="navItem">
+            <div class="navItem tileWrapper">
                 <h3>Templates:</h3>
                 <div class="imgItem">
                     <h5>Demo</h5>
