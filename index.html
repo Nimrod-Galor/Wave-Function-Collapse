@@ -20,12 +20,13 @@
             margin-bottom: 0;
         }
         h5{
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         nav {
             position: relative;
             padding-bottom: 40px;
+            grid-area: 2 / 1 / 2 / 1;
         }
 
         main{
@@ -44,6 +45,11 @@
             background-color: #aeaeae;
             border: 1px solid #000;
             border-radius: 5px;
+            box-shadow: #000 5px 5px 20px;
+        }
+
+        .grid_1_2{
+                display: grid;
         }
 
         .flex-wrap{
@@ -60,9 +66,13 @@
 
         .imgItem img{
             width: 150px;
+            box-shadow: #000 5px 5px 20px;
         }
 
-        .selectedTile{border:4px solid gold;}
+        img.selectedTile{
+            border:4px solid gold;
+            box-shadow: none;
+        }
 
         .mt15{
             margin-top: 15px;
@@ -103,14 +113,14 @@
         }
 
         @media screen and (min-width: 600px) {
-            #grid_1_2{
-                display: grid;
+            .grid_1_2{
                 grid-template-columns: 1fr 2fr;
                 gap: 20px;
             }
 
             nav {
                 padding-bottom: 100px;
+                grid-area: 1 /1/1/2;
             }
 
             .bottom{
@@ -187,7 +197,7 @@
 <body>
     <h1>Wave Function Collapse</h1>
     <div id="topwrapper" class="wrapper-center">
-        <div id="grid_1_2">
+        <div class="grid_1_2">
             <nav>
                 <div class="mt15">
                     <label for="dim">Cell dimension (between 5 and 100):</label>
