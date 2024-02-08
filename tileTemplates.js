@@ -1,6 +1,6 @@
 console.log("tileTemplates.js");
 const templateTailes = {
-    selectedTemplate : 'circuit',
+    selectedTemplate : 'roads',
     
     demo : {
       path : './tiles/demo',
@@ -62,7 +62,7 @@ const templateTailes = {
     },
     circuit : {
       path : './tiles/circuit',
-      numOfTiles : 12,
+      numOfTiles : 13,
       rotateStartIndex : 3,
       edges: [
         ['AAA', 'AAA', 'AAA', 'AAA'],
@@ -77,6 +77,17 @@ const templateTailes = {
         ['BCB', 'BCB', 'BBB', 'BCB'],
         ['BCB', 'BCB', 'BCB', 'BCB'],
         ['BCB', 'BCB', 'BBB', 'BBB'],
+        ['ABB', 'BCB', 'BBA', 'AAA'],
+//********** */
+        ['ABB', 'BBB', 'BBB', 'BBA'],
+        ['ACB', 'BCB', 'BBB', 'BBA'],
+        ['BCA', 'ACB', 'BBB', 'BBB'],
+        ['ABB', 'BCB', 'BBB', 'BCA'],
+        ['BCB', 'BCB', 'BBA', 'ABB'],
+        ['BCB', 'BCA', 'AAA', 'ACB'],
+        ['BCB', 'BBA', 'AAA', 'ABB'],
+        ['BCB', 'BCA', 'AAA', 'ABB'],
+        ['BBB', 'BBA', 'AAA', 'ACB']
       ]
     }
   }

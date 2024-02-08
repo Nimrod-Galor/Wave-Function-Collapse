@@ -42,9 +42,9 @@ function initGrid() {
   DIM = Number(document.getElementById("dim").value) || DIM;
   console.log(`DIM: ${DIM}`);
 
-  const selectedTemplate = templateTailes.selectedTemplate;
+  
   // Loaded and created the tiles
-  tiles = generateTiles(selectedTemplate);
+  tiles = generateTiles(templateTailes.selectedTemplate);
 
   grid = [];
   // Create cell for each spot on the grid
@@ -199,7 +199,7 @@ function tileSelect(evt){
 
   templateTailes.selectedTemplate = evt.target.id;
   noLoop();
-  //preload(initGrid());
+  //preload();
   imagesLoad();
-  initGrid();
+  // initGrid();
 }
