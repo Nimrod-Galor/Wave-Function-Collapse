@@ -5,31 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
     <style>
-        html , body{
-            width: 100%;
-            margin: 0;
-            padding: 0;
+        *{
+            box-sizing: border-box;
         }
-        body{
-            margin: 0;
-            text-align: center;
+        html, body{
+            width:100%;
+            margin:0;
+            padding:0;
         }
         h1{
-            margin: 0 0 50px 0;
-            text-decoration: underline;
-            background-color: crimson;
-            padding: 15px;
-            color: gold;
+            text-align: center;
         }
-        #topwrapper{
-            display: block;
-            margin: auto;
-            width: 1300px;
-            max-width: 95%;
-            padding: 30px;
-            border:2px solid #000;
-            border-radius: 15px;
-            box-sizing: border-box;
+        h3{
+            margin-bottom: 0;
+        }
+        h5{
+            margin-bottom: 3px;
+        }
+
+        nav {
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        main{
+            text-align: center;
+        }
+
+        canvas{
+            border:1px solid #000;
+        }
+
+        .wrapper-center{
+            width:96%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: #aeaeae;
+            border: 1px solid #000;
+            border-radius: 5px;
+        }
+
+        .flex-wrap{
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-around;
+        }
+
+        .imgItem{
+            width: 150px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .imgItem img{
+            width: 150px;
+        }
+
+        .selectedTile{border:4px solid gold;}
+
+        .mt15{
+            margin-top: 15px;
         }
 
         .btn {
@@ -53,12 +89,6 @@
             transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         }
 
-        aside{
-            text-align: left;
-            position: relative;
-            margin-bottom: 15px;
-        }
-    
         .btn:hover {
             color: #fff;
             background-color: #0b5ed7;
@@ -69,12 +99,56 @@
             position: unset;
             bottom: 15px;
             width:100%;
+            margin-top: 30px;
         }
 
-        .imgItem{
-            display: inline-block;
-            margin: 0 10px;
+        @media screen and (min-width: 600px) {
+            #grid_1_2{
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 20px;
+            }
+
+            nav {
+                padding-bottom: 100px;
+            }
+
+            .bottom{
+                position: absolute;
+            }
         }
+        /*
+        html , body{
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body{
+            margin: 0;
+            text-align: center;
+        }
+        h1{
+            margin: 0 0 50px 0;
+            text-decoration: underline;
+            background-color: crimson;
+            padding: 15px;
+            color: gold;
+        }
+        #topwrapper{
+            display: block;
+            margin: auto;
+            width: 1300px;
+            max-width: 95%;
+            padding: 30px;
+            border:2px solid #000;
+            border-radius: 15px;
+            box-sizing: border-box;
+        }
+
+        
+
+        
 
         .navItem h3{
             text-align: left;
@@ -92,7 +166,7 @@
 
         .tileImage{width: 150px; height: 150px; border:1px solid gray; cursor: pointer;}
         
-        .selectedTile{border:4px solid gold;}
+        
 
         @media screen and (min-width: 600px) {
             #topwrapper{
@@ -106,53 +180,56 @@
                 position: absolute;
             }
         }
+        */
     </style>
     <title>Wave Function Collapse</title>
 </head>
 <body>
     <h1>Wave Function Collapse</h1>
-    <div id="topwrapper">
-        <aside>
-            <div class="navItem">
-                <label for="dim">Cell dimension (between 5 and 100):</label>
-                <input type="number" id="dim" name="dim" min="5" max="100" value="10" onchange="validateDim(event)" />
-            </div>
+    <div id="topwrapper" class="wrapper-center">
+        <div id="grid_1_2">
+            <nav>
+                <div class="mt15">
+                    <label for="dim">Cell dimension (between 5 and 100):</label>
+                    <input type="number" id="dim" name="dim" min="5" max="100" value="10" onchange="validateDim(event)" />
+                </div>
 
-            <div class="navItem tileWrapper">
                 <h3>Templates:</h3>
-                <div class="imgItem">
-                    <h5>Demo</h5>
-                    <img alt="Demo" src="./tiles/demo/1.png" id="demo" onclick="tileSelect(event)" class="tileImage" />
+                <div class="flex-wrap">
+                    <div class="imgItem">
+                        <h5>Demo</h5>
+                        <img alt="Demo" src="./tiles/demo/1.png" id="demo" onclick="tileSelect(event)"/>
+                    </div>
+                    <div class="imgItem">
+                        <h5>Blue traks</h5>
+                        <img alt="Blue traks" src="./tiles/blue-tracks/1.png" id="bluetraks" onclick="tileSelect(event)"/>
+                    </div>
+                    <div class="imgItem">
+                        <h5>Mountains</h5>
+                        <img alt="Mountains" src="./tiles/mountains/0.png" id="mountains" onclick="tileSelect(event)"/>
+                    </div>
+                    <div class="imgItem">
+                        <h5>Rail</h5>
+                        <img alt="Rail" src="./tiles/rail/1.png" id="rail" onclick="tileSelect(event)"/>
+                    </div>
+                    <div class="imgItem">
+                        <h5>Roads</h5>
+                        <img alt="Roads" src="./tiles/roads/1.png" id="roads" onclick="tileSelect(event)" class="tileImage selectedTile" />
+                    </div>
+                    <div class="imgItem">
+                        <h5>Circuit</h5>
+                        <img alt="Circuit" src="./tiles/circuit/7.png" id="circuit" onclick="tileSelect(event)"/>
+                    </div>
                 </div>
-                <div class="imgItem">
-                    <h5>Blue traks</h5>
-                    <img alt="Blue traks" src="./tiles/blue-tracks/1.png" id="bluetraks" onclick="tileSelect(event)" class="tileImage" />
-                </div>
-                <div class="imgItem">
-                    <h5>Mountains</h5>
-                    <img alt="Mountains" src="./tiles/mountains/0.png" id="mountains" onclick="tileSelect(event)" class="tileImage" />
-                </div>
-                <div class="imgItem">
-                    <h5>Rail</h5>
-                    <img alt="Rail" src="./tiles/rail/1.png" id="rail" onclick="tileSelect(event)" class="tileImage" />
-                </div>
-                <div class="imgItem">
-                    <h5>Roads</h5>
-                    <img alt="Roads" src="./tiles/roads/1.png" id="roads" onclick="tileSelect(event)" class="tileImage selectedTile" />
-                </div>
-                <div class="imgItem">
-                    <h5>Circuit</h5>
-                    <img alt="Circuit" src="./tiles/circuit/7.png" id="circuit" onclick="tileSelect(event)" class="tileImage" />
-                </div>
-            </div>
 
-            <div class="navItem bottom">
-                <button type="button" class="btn" onclick="initGrid()">Restart</button>
-            </div>
-        </aside>
-        <main>
-            <canvas id="defaultCanvas0"></canvas>
-        </main>
+                <div class="navItem bottom">
+                    <button type="button" class="btn" onclick="initGrid()">Restart</button>
+                </div>
+            </nav>
+            <main>
+                <canvas id="defaultCanvas0"></canvas>
+            </main>
+        </div>
     </div>
     
     <script src="sketch.js"></script>
