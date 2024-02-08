@@ -62,7 +62,7 @@ const templateTailes = {
     },
     circuit : {
       path : './tiles/circuit',
-      numOfTiles : 13,
+      numOfTiles : 14,
       rotateStartIndex : 3,
       edges: [
         ['AAA', 'AAA', 'AAA', 'AAA'],
@@ -78,8 +78,8 @@ const templateTailes = {
         ['BCB', 'BCB', 'BCB', 'BCB'],
         ['BCB', 'BCB', 'BBB', 'BBB'],
         ['ABB', 'BCB', 'BBA', 'AAA'],
-//********** */
         ['ABB', 'BBB', 'BBB', 'BBA'],
+        //********** */
         ['ACB', 'BCB', 'BBB', 'BBA'],
         ['BCA', 'ACB', 'BBB', 'BBB'],
         ['ABB', 'BCB', 'BBB', 'BCA'],

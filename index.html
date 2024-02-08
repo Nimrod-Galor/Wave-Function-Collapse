@@ -19,7 +19,8 @@
         #topwrapper{
             display: block;
             margin: auto;
-            width: fit-content;
+            width: 1300px;
+            max-width: 95%;
             padding: 30px;
             border:2px solid #000;
             border-radius: 15px;
@@ -64,16 +65,23 @@
             width:100%;
         }
 
+        .imgItem{
+            display: inline-block;
+        }
+
+        .imgItem h5{
+            margin-bottom: 5px;
+        }
+
         .tileImage{width: 150px; height: 150px; border:1px solid gray; cursor: pointer;}
         
         .selectedTile{border:4px solid gold;}
 
         @media screen and (min-width: 600px) {
             #topwrapper{
-                width: auto;
                 display: grid;
-                grid-template-columns: 1fr 2fr;
-                column-gap: 5%;
+                grid-template-columns: 1fr auto;
+                column-gap: 2%;
             }
 
             .bottom{
@@ -93,13 +101,31 @@
             </div>
 
             <div class="navItem">
-                <h4>Templates:</h4>
-                <img src="./tiles/demo/1.png" id="demo" onclick="tileSelect(event)" class="tileImage" />
-                <img src="./tiles/blue-tracks/1.png" id="bluetraks" onclick="tileSelect(event)" class="tileImage" />
-                <img src="./tiles/mountains/0.png" id="mountains" onclick="tileSelect(event)" class="tileImage" />
-                <img src="./tiles/rail/1.png" id="rail" onclick="tileSelect(event)" class="tileImage" />
-                <img src="./tiles/roads/1.png" id="roads" onclick="tileSelect(event)" class="tileImage selectedTile" />
-                <img src="./tiles/circuit/7.png" id="circuit" onclick="tileSelect(event)" class="tileImage" />
+                <h3>Templates:</h3>
+                <div class="imgItem">
+                    <h5>Demo</h5>
+                    <img alt="Demo" src="./tiles/demo/1.png" id="demo" onclick="tileSelect(event)" class="tileImage" />
+                </div>
+                <div class="imgItem">
+                    <h5>Blue traks</h5>
+                    <img alt="Blue traks" src="./tiles/blue-tracks/1.png" id="bluetraks" onclick="tileSelect(event)" class="tileImage" />
+                </div>
+                <div class="imgItem">
+                    <h5>Mountains</h5>
+                    <img alt="Mountains" src="./tiles/mountains/0.png" id="mountains" onclick="tileSelect(event)" class="tileImage" />
+                </div>
+                <div class="imgItem">
+                    <h5>Rail</h5>
+                    <img alt="Rail" src="./tiles/rail/1.png" id="rail" onclick="tileSelect(event)" class="tileImage" />
+                </div>
+                <div class="imgItem">
+                    <h5>Roads</h5>
+                    <img alt="Roads" src="./tiles/roads/1.png" id="roads" onclick="tileSelect(event)" class="tileImage selectedTile" />
+                </div>
+                <div class="imgItem">
+                    <h5>Circuit</h5>
+                    <img alt="Circuit" src="./tiles/circuit/7.png" id="circuit" onclick="tileSelect(event)" class="tileImage" />
+                </div>
             </div>
 
             <div class="navItem bottom">

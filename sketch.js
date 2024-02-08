@@ -7,7 +7,11 @@ let grid = [];
 
 
 function windowResized() {
-  gridSize = Math.min(800, windowWidth);
+  gridSize = Math.min(800, windowWidth * 0.6);
+  if(windowWidth <= 600){
+    gridSize = windowWidth * 0.9;
+  }
+  console.log(`win resize grid size: ${gridSize}`);
   resizeCanvas(gridSize, gridSize);
 }
 
@@ -85,7 +89,7 @@ function draw(){
         let cell = grid[i + j * DIM];
         if (cell.collapsed) {
           let index = cell.options[0];
-          if(index === undefined){
+          if(cell.options.length > 1){
             fill(255, 0 , 0);
             rect(i * w, j * h, w, h);
           }else{
@@ -136,44 +140,62 @@ function draw(){
 
     // update neighbors option
     let ti = index - DIM;// top ondex
-    if(ti >= 0){
-        if(!grid[ti].collapsed){
-            grid[ti].options = grid[ti].options.filter(o => tiles[o].down.includes(optionPick));
-            if(grid[ti].options.length === 0){
-              //debugger;
-            }
-        }
+    if(ti < 0){
+      ti += DIM * DIM;
+    }
+
+    if(!grid[ti].collapsed){
+      grid[ti].options = grid[ti].options.filter(o => tiles[o].down.includes(optionPick));
+      if(grid[ti].options.length === 0){
+        grid[ti].options = getArrayRange(0, tiles.length);
+        grid[ti].collapsed = true;
+      }
     }
     
-     let li = index - 1; //left
-     if(li >= 0){
-        if(!grid[li].collapsed){
-            grid[li].options = grid[li].options.filter(o => tiles[o].right.includes(optionPick));
-            if(grid[li].options.length === 0){
-              //debugger;
-            }
-        }
-     }
     
-     let ri = index + 1;// right
-     if(ri < DIM * DIM){
-        if(!grid[ri].collapsed){
-            grid[ri].options = grid[ri].options.filter(o => tiles[o].left.includes(optionPick));
-            if(grid[ri].options.length === 0){
-              //debugger;
-            }
-        }
-     }
+    let li = index % DIM === 0 ? index - 1 + DIM : index - 1; //left
     
-     let bi = index + DIM;// bottom
-     if(bi < DIM * DIM){
-        if(!grid[bi].collapsed){
-            grid[bi].options = grid[bi].options.filter(o => tiles[o].up.includes(optionPick));
-            if(grid[bi].options.length === 0){
-              //debugger;
-            }
-        }1
-     }
+    if(!grid[li].collapsed){
+      grid[li].options = grid[li].options.filter(o => tiles[o].right.includes(optionPick));
+      if(grid[li].options.length === 0){
+        grid[li].options = getArrayRange(0, tiles.length);
+        grid[li].collapsed = true;
+      }
+    }
+     
+    
+    let ri = (index + 1) % DIM === 0 ? index + 1 - DIM : index + 1;// right
+
+    if(!grid[ri].collapsed){
+      grid[ri].options = grid[ri].options.filter(o => tiles[o].left.includes(optionPick));
+      if(grid[ri].options.length === 0){
+        grid[ri].options = getArrayRange(0, tiles.length);
+        grid[ri].collapsed = true;
+      }
+    }
+     
+    
+    let bi = index + DIM;// bottom
+    if(bi >= DIM * DIM){
+      bi = bi - DIM * DIM;
+    }
+
+    if(!grid[bi].collapsed){
+      grid[bi].options = grid[bi].options.filter(o => tiles[o].up.includes(optionPick));
+      if(grid[bi].options.length === 0){
+        grid[bi].options = getArrayRange(0, tiles.length);
+        grid[bi].collapsed = true;
+      }
+    }
+    
+}
+
+function getArrayRange(start, length){
+  let arr = [];
+  for(let i = start; i < length; i++){
+    arr.push(i);
+  }
+  return arr;
 }
 
 function validateDim(evt){
