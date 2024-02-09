@@ -1,10 +1,8 @@
 let gridSize = 800;
 let DIM = 10;
 let tileImages = [];
-
 let tiles = [];
 let grid = [];
-
 
 function windowResized() {
   gridSize = Math.min(800, windowWidth * 0.6);
@@ -14,7 +12,6 @@ function windowResized() {
   console.log(`win resize grid size: ${gridSize}`);
   resizeCanvas(gridSize, gridSize);
 }
-
 
 function preload(cb) {
   const selectedTemplate = templateTailes.selectedTemplate;
@@ -38,7 +35,6 @@ function initGrid() {
   DIM = Number(document.getElementById("dim").value) || DIM;
   console.log(`DIM: ${DIM}`);
 
-  
   // Loaded and created the tiles
   tiles = generateTiles(templateTailes.selectedTemplate);
 
@@ -151,8 +147,7 @@ function draw(){
         grid[ti].collapsed = true;
       }
     }
-    
-    
+
     let li = index % DIM === 0 ? index - 1 + DIM : index - 1; //left
     
     if(!grid[li].collapsed){
@@ -162,8 +157,7 @@ function draw(){
         grid[li].collapsed = true;
       }
     }
-     
-    
+
     let ri = (index + 1) % DIM === 0 ? index + 1 - DIM : index + 1;// right
 
     if(!grid[ri].collapsed){
@@ -173,8 +167,7 @@ function draw(){
         grid[ri].collapsed = true;
       }
     }
-     
-    
+
     let bi = index + DIM;// bottom
     if(bi >= DIM * DIM){
       bi = bi - DIM * DIM;
@@ -214,6 +207,4 @@ function tileSelect(evt){
   templateTailes.selectedTemplate = evt.target.id;
   noLoop();
   preload(initGrid);
-  //imagesLoad(initGrid);
-  // initGrid();
 }
